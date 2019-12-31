@@ -79,7 +79,7 @@ istream& operator>>(istream& in, vector<T>& v){
 	return in;
 }
 
-template<class T>
+template<class T>                                                                                //two-dimensional array for more comfortable constructor
 struct matrix : public vector<vector<T>>{
 	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){
 	}
