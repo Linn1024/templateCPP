@@ -24,7 +24,7 @@ emptyClass cerr;
 #define cerr cerr1
 #endif
 
-#ifdef DEBUG                                                          					         //check vector range in debug
+#ifdef DEBUG                                                                                     //check vector range in debug
 template <class T>
 struct vector1 : public vector<T>{
     using vector<T>::vector;
