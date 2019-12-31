@@ -60,9 +60,9 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, T a)
 
 template<class Ch, class Tr, class... Args>                                                      //cout tuple
 auto& operator<<(std::basic_ostream<Ch, Tr>& os, std::tuple<Args...> const& t) {                 
-  counterOfCout++;
-  std::apply([&os](auto&&... args) {((os << args << " "), ...);}, t);
-  return os;
+	counterOfCout++;
+	std::apply([&os](auto&&... args) {((os << args << " "), ...);}, t);
+ 	return os;
 }
 
 template<class T, class U>                                                                       //cout pair
