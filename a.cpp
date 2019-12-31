@@ -12,9 +12,9 @@ using namespace std;
 #ifndef DEBUG
 #define cerr cerr1
 #define endl '\n'
-struct emptyClass{                                  										     //remove cerr in release
-};                                                 	    							 			 //don't use with functions (compiler doesn't know if function change state of variables) 
-
+struct emptyClass{                                                                               //remove cerr in release (it works fast also)
+};                                                                                               //don't use with functions (compiler doesn't know if function changes state of variables) 
+                                                                                                 //                         (it still doesn't print but functions run)
 template <class T>
 emptyClass& operator<<(emptyClass& cl, T& t){
     return cl;
@@ -24,7 +24,7 @@ emptyClass cerr;
 #define cerr cerr1
 #endif
 
-#ifdef DEBUG                                                          					        //check vector range in debug
+#ifdef DEBUG                                                          					         //check vector range in debug
 template <class T>
 struct vector1 : public vector<T>{
     using vector<T>::vector;
@@ -39,7 +39,7 @@ struct vector1 : public vector<T>{
 
 int counterOfCout = 0;
 
-template<typename T>                                                                           //cout with everything that has iterator begin()
+template<typename T>                                                                             //cout everything that has iterator begin()
 using hasIterator_t = decltype( std::declval<T&>().begin());
 
 template<typename T>
@@ -58,20 +58,20 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, T a)
 	return out;
 }
 
-template<class Ch, class Tr, class... Args>
-auto& operator<<(std::basic_ostream<Ch, Tr>& os, std::tuple<Args...> const& t) {             //cout tuple
+template<class Ch, class Tr, class... Args>                                                      //cout tuple
+auto& operator<<(std::basic_ostream<Ch, Tr>& os, std::tuple<Args...> const& t) {                 
   counterOfCout++;
   std::apply([&os](auto&&... args) {((os << args << " "), ...);}, t);
   return os;
 }
 
-template<class T, class U>                                                                   //cout pair
+template<class T, class U>                                                                       //cout pair
 auto& operator<<(ostream& out, pair<T, U> p){
 	counterOfCout++;
 	return (out << p.first << " " << p.second);
 }
-                                                                                             //cin vector (any dimension)
-template<class T>
+                                                                                                 
+template<class T>                                                                                //cin vector (any dimension)
 istream& operator>>(istream& in, vector<T>& v){
 	for (auto& e : v){
 		in >> e;
