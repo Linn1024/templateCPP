@@ -81,6 +81,8 @@ istream& operator>>(istream& in, vector<T>& v){
 
 template<class T>
 struct matrix : public vector<vector<T>>{
+	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){
+	}
 };
 
 
