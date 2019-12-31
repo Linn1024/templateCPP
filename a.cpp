@@ -27,7 +27,7 @@ emptyClass cerr;
 #ifdef DEBUG                                                                                     //check vector range in debug
 template <class T>
 struct vector1 : public vector<T>{
-    using vector<T>::vector;
+	using vector<T>::vector;
 	auto operator[](size_t t) -> decltype(vector<T>().at(t)){
 		return (*this).at(t);
 	}
@@ -78,6 +78,11 @@ istream& operator>>(istream& in, vector<T>& v){
 	}
 	return in;
 }
+
+template<class T>
+struct matrix : public vector<vector<T>>{
+};
+
 
 int main(){
 }
