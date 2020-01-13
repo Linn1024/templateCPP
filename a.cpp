@@ -49,11 +49,20 @@ template <class T>
 typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, T a){
 	counterOfCout++;
 	int oldCounter = counterOfCout;
-	for (const auto& el : a){
-		out << el << " ";
-		if (counterOfCout - oldCounter != 0){
-			out << endl;
+	for (auto iter = a.begin(); iter != a.end(); iter++){
+		auto el = *iter;
+		out << el;
+		if (iter + 1 == a.end())
+			break;
+		if (counterOfCout - oldCounter == 0){
+			out << " ";
+			continue;
 		}
+		for (int i = 2; i < counterOfCout - oldCounter; i++)
+			cout << endl;		
+	}
+	if (counterOfCout - oldCounter == 0){
+		out << endl;
 	}
 	return out;
 }
@@ -81,6 +90,7 @@ istream& operator>>(istream& in, vector<T>& v){
 
 template<class T>                                                                                //two-dimensional array for more comfortable constructor
 struct matrix : public vector<vector<T>>{
+	using vector<vector<T>>::vector;
 	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){
 	}
 };
