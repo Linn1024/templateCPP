@@ -75,7 +75,7 @@ auto& operator<<(std::basic_ostream<Ch, Tr>& os, std::tuple<Args...> const& t) {
 }
 
 template<class T, class U>                                                                       //cout pair
-auto& operator<<(ostream& out, pair<T, U> p){
+ostream& operator<<(ostream& out, pair<T, U> p){
 	counterOfCout++;
 	return (out << p.first << " " << p.second);
 }
@@ -94,6 +94,20 @@ struct matrix : public vector<vector<T>>{
 	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){
 	}
 };
+
+
+template <typename T>                                                                            //function that prints any values with space delimeter
+void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
+{
+    std::cout << t << endl;
+}
+
+template<class T, class... Args>
+void print(const T& el, Args... args)
+{
+	cout << el << " ";
+	print(args...);
+}
 
 
 int main(){
