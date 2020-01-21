@@ -70,7 +70,7 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, cons
 }
 
 template <class T>
-typename enable_if<hasIterator<T>, void>::type sort(T& a){
+typename enable_if<hasIterator<T>, void>::type sort(T& a){                                       //sort whole container
 	sort(a.begin(), a.end());
 }
 
@@ -118,4 +118,6 @@ void print(const T& el, Args... args)
 
 
 int main(){
+	cin.tie(NULL);
+	ios_base::sync_with_stdio(false);
 }
