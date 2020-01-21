@@ -3,6 +3,8 @@
 #include <experimental/type_traits>
 #include <tuple>
 #include <utility>
+#include <algorithm>
+
 
 using namespace std;
 
@@ -46,7 +48,7 @@ template<typename T>
 constexpr bool hasIterator = std::experimental::is_detected<hasIterator_t, T>::value;
 
 template <class T>
-typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, T a){
+typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, const T& a){
 	counterOfCout++;
 	int oldCounter = counterOfCout;
 	for (auto iter = a.begin(); iter != a.end(); iter++){
@@ -65,6 +67,11 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, T a)
 		out << endl;
 	}
 	return out;
+}
+
+template <class T>
+typename enable_if<hasIterator<T>, void>::type sort(T& a){
+	sort(a.begin(), a.end());
 }
 
 template<class Ch, class Tr, class... Args>                                                      //cout tuple
