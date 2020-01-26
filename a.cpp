@@ -104,12 +104,12 @@ struct matrix : public vector<vector<T>>{
 
 
 template <typename T>                                                                            //function that prints any values with space delimeter
-void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
-{
-    std::cout << t << endl;
-}
-
-template<class T, class... Args>
+void print(ostream& out=cout, const T& t)                                                        //and make endl in the end (but it doesn't even matter) 
+{                                                                                                //e.g print(1, "plus", 2, '=', 3);
+    std::cout << t << endl;                                                                      //1 plus 2 = 3
+}                                                                                                //use template for another ostream
+                                                                                                 //e.g. print<cerr>("I am here")
+template<ostream& out=cout, class T, class... Args>
 void print(const T& el, Args... args)
 {
 	cout << el << " ";
