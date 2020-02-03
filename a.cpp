@@ -39,7 +39,8 @@ struct vector1 : public vector<T>{
 };
 #endif
 
-int counterOfCout = 0;
+int depth = 0;
+int maxDepth = 0;
 
 template<typename T>                                                                             //cout everything that has iterator begin()
 using hasIterator_t = decltype( std::declval<T&>().begin());
@@ -49,23 +50,27 @@ constexpr bool hasIterator = std::experimental::is_detected<hasIterator_t, T>::v
 
 template <class T>
 typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, const T& a){
-	counterOfCout++;
-	int oldCounter = counterOfCout;
+	depth++;
+	int myDepth = depth;
+	maxDepth = max(maxDepth, depth);
 	for (auto iter = a.begin(); iter != a.end(); iter++){
 		auto el = *iter;
 		out << el;
 		if (iter + 1 == a.end())
 			break;
-		if (counterOfCout - oldCounter == 0){
+		if (maxDepth - myDepth == 0){
 			out << " ";
 			continue;
 		}
-		for (int i = 2; i < counterOfCout - oldCounter; i++)
+		for (int i = 0; i < maxDepth - myDepth; i++)
 			cout << endl;		
 	}
-	if (counterOfCout - oldCounter == 0){
-		out << endl;
-	}
+//	if (myDepth - maxDepth == 0){
+//		out << endl;
+//	}
+	depth--;
+	if (myDepth == 1)
+		maxDepth = 0;
 	return out;
 }
 
@@ -76,14 +81,14 @@ typename enable_if<hasIterator<T>, void>::type sort(T& a){                      
 
 template<class Ch, class Tr, class... Args>                                                      //cout tuple
 auto& operator<<(std::basic_ostream<Ch, Tr>& os, std::tuple<Args...> const& t) {                 
-	counterOfCout++;
+	maxDepth = max(depth + 1, maxDepth);
 	std::apply([&os](auto&&... args) {((os << args << " "), ...);}, t);
  	return os;
 }
 
 template<class T, class U>                                                                       //cout pair
-ostream& operator<<(ostream& out, pair<T, U> p){
-	counterOfCout++;
+ostream& operator<<(ostream& out, const pair<T, U>& p){
+	maxDepth = max(depth + 1, maxDepth);
 	return (out << p.first << " " << p.second);
 }
                                                                                                  
@@ -98,13 +103,15 @@ istream& operator>>(istream& in, vector<T>& v){
 template<class T>                                                                                //two-dimensional array for more comfortable constructor
 struct matrix : public vector<vector<T>>{
 	using vector<vector<T>>::vector;
-	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){
+	matrix (size_t n = 0, size_t m = 0, T el = T()) : vector<vector<T>>(n, vector<T>(m, el)){};
+	void resize(size_t n, size_t m, T el = T()){
+		vector<vector<T>>::resize(n, vector<T>(m, el));
 	}
 };
 
 
-template <typename T>                                                                            //function that prints any values with space delimeter
-void print(ostream& out=cout, const T& t)                                                        //and make endl in the end (but it doesn't even matter) 
+template <ostream& out=cout, typename T>                                                         //function that prints any values with space delimeter
+void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
 {                                                                                                //e.g print(1, "plus", 2, '=', 3);
     std::cout << t << endl;                                                                      //1 plus 2 = 3
 }                                                                                                //use template for another ostream
@@ -120,4 +127,7 @@ void print(const T& el, Args... args)
 int main(){
 	cin.tie(NULL);
 	ios_base::sync_with_stdio(false);
+	matrix m(6, 4, pair{3, 4});
+	print(m);
+	print(matrix(3, 4, 1));
 }
