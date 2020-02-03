@@ -127,5 +127,4 @@ void print(const T& el, Args... args)
 int main(){
 	cin.tie(NULL);
 	ios_base::sync_with_stdio(false);
-	cerr << matrix(3, 4, pair{4, 5}) << vector{4, 5, 6};
 }
