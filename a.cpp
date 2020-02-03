@@ -65,9 +65,9 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, cons
 		for (int i = 0; i < maxDepth - myDepth; i++)
 			cout << endl;		
 	}
-//	if (myDepth - maxDepth == 0){
-//		out << endl;
-//	}
+	if (myDepth == 1){
+		out << endl;
+	}
 	depth--;
 	if (myDepth == 1)
 		maxDepth = 0;
@@ -113,7 +113,7 @@ struct matrix : public vector<vector<T>>{
 template <ostream& out=cout, typename T>                                                         //function that prints any values with space delimeter
 void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
 {                                                                                                //e.g print(1, "plus", 2, '=', 3);
-	out << t << endl;                                                                        //1 plus 2 = 3
+	out << t << endl;                                                                            //1 plus 2 = 3
 }                                                                                                //use template for another ostream
                                                                                                  //e.g. print<cerr>("I am here")
 template<ostream& out=cout, class T, class... Args>
@@ -127,4 +127,5 @@ void print(const T& el, Args... args)
 int main(){
 	cin.tie(NULL);
 	ios_base::sync_with_stdio(false);
+	cerr << matrix(3, 4, pair{4, 5}) << vector{4, 5, 6};
 }
