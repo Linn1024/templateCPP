@@ -127,7 +127,4 @@ void print(const T& el, Args... args)
 int main(){
 	cin.tie(NULL);
 	ios_base::sync_with_stdio(false);
-	matrix m(6, 4, pair{3, 4});
-	print(m);
-	print(matrix(3, 4, 1));
 }
