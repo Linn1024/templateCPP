@@ -18,10 +18,24 @@ struct emptyClass{                                                              
 };                                                                                               //don't use with functions (compiler doesn't know if function changes state of variables) 
                                                                                                  //                         (it still doesn't print but functions run)
 template <class T>
-emptyClass& operator<<(emptyClass& cl, T& t){
+emptyClass& operator<<(emptyClass& cl, const T& t){
     return cl;
 }
  
+template <emptyClass& out, typename T>                                                           //function that prints any values with space delimeter
+void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
+{                                                                                                //e.g print(1, "plus", 2, '=', 3);
+	out << t << endl;                                                                            //1 plus 2 = 3
+}                                                                                                //use template for another ostream
+                                                                                                 //e.g. print<cerr>("I am here")
+template<emptyClass& out, class T, class... Args>
+void print(const T& el, Args... args)
+{
+	out << el << " ";
+	print(args...);
+}
+
+
 emptyClass cerr;
 #define cerr cerr1
 #endif
@@ -30,13 +44,14 @@ emptyClass cerr;
 template <class T>
 struct vector1 : public vector<T>{
 	using vector<T>::vector;
-	auto operator[](size_t t) -> decltype(vector<T>().at(t)){
+	decltype(auto) operator[](size_t t) {
 		return (*this).at(t);
 	}
-	auto operator[](size_t t)  const -> decltype(vector<T>().at(t)){
+	decltype(auto) operator[](size_t t)  const {
 		return (*this).at(t);
 	}
 };
+#define vector vector1
 #endif
 
 int depth = 0;
