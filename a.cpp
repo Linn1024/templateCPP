@@ -4,6 +4,7 @@
 #include <tuple>
 #include <utility>
 #include <algorithm>
+#include <string>
 
 
 using namespace std;
@@ -22,17 +23,14 @@ emptyClass& operator<<(emptyClass& cl, const T& t){
     return cl;
 }
  
-template <emptyClass& out, typename T>                                                           //function that prints any values with space delimeter
-void print(const T& t)                                                                           //and make endl in the end (but it doesn't even matter) 
-{                                                                                                //e.g print(1, "plus", 2, '=', 3);
-	out << t << endl;                                                                            //1 plus 2 = 3
-}                                                                                                //use template for another ostream
-                                                                                                 //e.g. print<cerr>("I am here")
-template<emptyClass& out, class T, class... Args>
+template <emptyClass& out, typename T>                                                           
+void print(const T& t)                                                                            
+{                                                                                                
+}                                                                                                
+                                                                                                 
+template<emptyClass& out, class T, class... Args>                                                
 void print(const T& el, Args... args)
-{
-	out << el << " ";
-	print(args...);
+{	
 }
 
 
@@ -135,7 +133,7 @@ template<ostream& out=cout, class T, class... Args>
 void print(const T& el, Args... args)
 {
 	out << el << " ";
-	print(args...);
+	print<out>(args...);
 }
 
 
