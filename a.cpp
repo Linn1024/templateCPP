@@ -59,7 +59,7 @@ template<typename T>                                                            
 using hasIterator_t = decltype( std::declval<T&>().begin());
 
 template<typename T>
-constexpr bool hasIterator = std::experimental::is_detected<hasIterator_t, T>::value;
+constexpr bool hasIterator = std::experimental::is_detected<hasIterator_t, T>::value && !std::is_base_of<string, T>::value;
 
 template <class T>
 typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, const T& a){
@@ -67,16 +67,15 @@ typename enable_if<hasIterator<T>, ostream&>::type operator<<(ostream& out, cons
 	int myDepth = depth;
 	maxDepth = max(maxDepth, depth);
 	for (auto iter = a.begin(); iter != a.end(); iter++){
+		if (iter != a.begin()){
+			if (maxDepth - myDepth == 0)
+				out << " ";
+			else
+				for (int i = 0; i < maxDepth - myDepth; i++)
+					cout << endl;		
+		}
 		auto el = *iter;
 		out << el;
-		if (iter + 1 == a.end())
-			break;
-		if (maxDepth - myDepth == 0){
-			out << " ";
-			continue;
-		}
-		for (int i = 0; i < maxDepth - myDepth; i++)
-			cout << endl;		
 	}
 	if (myDepth == 1){
 		out << endl;
