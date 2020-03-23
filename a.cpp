@@ -24,12 +24,12 @@ emptyClass& operator<<(emptyClass& cl, const T& t){
 }
  
 template <emptyClass& out, typename T>                                                           
-void print(const T& t)                                                                            
+void print([[maybe_unused]] const T& t)                                                                            
 {                                                                                                
 }                                                                                                
                                                                                                  
 template<emptyClass& out, class T, class... Args>                                                
-void print(const T& el, Args... args)
+void print([[maybe_unused]] const T& el, [[maybe_unused]] Args... args)
 {	
 }
 
